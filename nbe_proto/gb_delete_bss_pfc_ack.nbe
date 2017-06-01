@@ -1,0 +1,38 @@
+def delete_bss_pfc_ack<101> = proto {
+   extract into gb;
+   list<gbe> ls_elements;
+   stream gbe gbe;
+   list<gbf> ls_fields;
+   stream gbf gbf;
+
+   int data_len @ P(1);
+   int dir @ P(2);
+
+   APP <- ""[
+   nbe.cdef[[
+      #include "nbe_common.h"
+      #include "dict.h"
+      #include "gb_l3_common.h"
+      #include "stdio.h"
+
+      BEGIN_SIGNAL("2", "BSSGP Layer", "DELETE-BSS-PFC-ACK");
+
+      uint8_t h = 0;
+      int len = 10;
+
+      bssgp_pdu_type();
+      bssgp_tlli(1, 1);
+      packet_flow_identifier(1, 1);
+
+      if (MYVAR(data_len) - len > 0)
+      {
+		  uint32_t pos = 0;
+          POS(pos);
+          SET_V(gb, next_pos, pos);
+          SET_V(gb, next_len, MYVAR(data_len) - len);
+      }
+
+      END_SIGNAL();
+   ]]
+   ];
+};

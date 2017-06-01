@@ -1,0 +1,56 @@
+def llc_layer<900> = proto {
+    extract into gb; 
+    int data_len @ P(1); 
+    int dir @ P(2); 
+
+    list<gbe> ls_elements;
+    stream gbe gbe;
+    list<gbf> ls_fields;
+    stream gbf gbf;
+
+    APP <- ""[ 
+      nbe.cdef[[
+       #include "nbe_common.h"
+       #include "gb_llc_common.h"
+       #include "stdio.h"
+
+        BEGIN_SIGNAL("3", "", "");
+
+        int len = 0;
+        int info_len = 0;
+		address_field();
+        int u_flag = 0;
+        int m1_m4 = 0;
+        B8_BIT(u_flag, 6, 8);
+        B8_BIT(m1_m4, 1, 4);
+
+        int xid_len = 0;
+        int ctl_field_len = 0;
+        ctl_field_len = MYVAR(data_len) - 4;
+        len = control_field(ctl_field_len);
+        if(u_flag == 7 && m1_m4 == 8)
+        {
+            frmr_frame_field();
+            len += 10;
+        }
+        if(u_flag == 7 && m1_m4 == 11)
+            xid_len = xid_parameter_field(ctl_field_len - 1);
+
+        info_len = MYVAR(data_len) - 1 - len - xid_len - 3;
+
+        if (info_len > 0)
+        {   
+            uint32_t pos = 0;  
+            POS(pos);    
+            SET_V(gb, next_pos, pos);
+            SET_V(gb, next_len, info_len);
+            SKIP(info_len);
+
+            //fcs_field();
+        }
+        fcs_field();
+
+        END_SIGNAL();
+      ]]  
+    ];  
+};

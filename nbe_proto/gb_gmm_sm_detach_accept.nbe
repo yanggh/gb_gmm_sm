@@ -1,0 +1,39 @@
+def detach_accept<101> = proto {
+   extract into gb;
+   list<gbe> ls_elements;
+   stream gbe gbe;
+   list<gbf> ls_fields;
+   stream gbf gbf;
+
+ 	int dir @ P(1);
+
+  APP <- ""[
+  nbe.cdef[[
+	#include "nbe_common.h"
+	#include "dict.h"
+	#include "gb_l3_common.h"
+	#include "stdio.h"
+    #include "gb_gmm_sm.h"
+
+	BEGIN_SIGNAL("4", "GMM", "DETACH ACCEPT");
+	
+
+	uint8_t iei = 0;
+	uint8_t location = 0;
+	uint8_t h = 0;
+
+	si_pd();
+	msg_type(MESSAGE_TYPE_GMM);
+	detach_type(iei, location, MYVAR(dir));
+
+	if(MYVAR(dir) == 0)   //NET TO MS
+	{
+		spare_half_octet(iei, location);
+		location = 1;
+		force_to_standby(iei, location);
+	}
+
+	END_SIGNAL();
+  ]]
+  ];
+};

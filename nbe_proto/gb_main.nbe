@@ -1,0 +1,252 @@
+import "gb_header.nbe"
+import "gb_common.nbe"
+import "gb_fr.nbe"
+import "gb_ns_unitdata.nbe"
+import "gb_ns_alive.nbe"
+import "gb_ns_alive_ack.nbe"
+import "gb_ns_unblock.nbe"
+import "gb_ns_unblock_ack.nbe"
+import "gb_ns_block.nbe"
+import "gb_ns_block_ack.nbe"
+import "gb_ns_reset.nbe"
+import "gb_ns_reset_ack.nbe"
+import "gb_ns_status.nbe"
+import "gb_dl_unitdata.nbe"
+import "gb_ul_unitdata.nbe"
+import "gb_ra_capability.nbe"
+import "gb_paging_ps.nbe"
+import "gb_paging_cs.nbe"
+import "gb_ra_capability_update.nbe"
+import "gb_ra_capability_update_ack.nbe"
+import "gb_radio_status.nbe"
+import "gb_suspend.nbe"
+import "gb_suspend_ack.nbe"
+import "gb_suspend_nack.nbe"
+import "gb_resume.nbe"
+import "gb_resume_ack.nbe"
+import "gb_resume_nack.nbe"
+import "gb_flush_ll.nbe"
+import "gb_flush_ll_ack.nbe"
+import "gb_llc_discarded.nbe"
+import "gb_flow_control_bvc.nbe"
+import "gb_flow_control_bvc_ack.nbe"
+import "gb_flow_control_ms.nbe"
+import "gb_flow_control_ms_ack.nbe"
+import "gb_bvc_block.nbe"
+import "gb_bvc_block_ack.nbe"
+import "gb_bvc_unblock.nbe"
+import "gb_bvc_unblock_ack.nbe"
+import "gb_bvc_reset.nbe"
+import "gb_bvc_reset_ack.nbe"
+import "gb_status.nbe"
+import "gb_download_bss_pfc.nbe"
+import "gb_create_bss_pfc.nbe"
+import "gb_create_bss_pfc_ack.nbe"
+import "gb_create_bss_pfc_nack.nbe"
+import "gb_modify_bss_pfc.nbe"
+import "gb_modify_bss_pfc_ack.nbe"
+import "gb_delete_bss_pfc.nbe"
+import "gb_delete_bss_pfc_ack.nbe"
+import "gb_sgsn_invoke_trace.nbe"
+import "gb_llc.nbe"
+
+import "gb_gmm_sm_activate_mbms_context_accept.nbe"
+import "gb_gmm_sm_activate_mbms_context_reject.nbe"
+import "gb_gmm_sm_activate_mbms_context_request.nbe"
+import "gb_gmm_sm_activate_pdp_context_accept.nbe"
+import "gb_gmm_sm_activate_pdp_context_reject.nbe"
+import "gb_gmm_sm_activate_pdp_context_request.nbe"
+import "gb_gmm_sm_activate_secondary_pdp_context_accept.nbe"
+import "gb_gmm_sm_activate_secondary_pdp_context_reject.nbe"
+import "gb_gmm_sm_activate_secondary_pdp_context_request.nbe"
+import "gb_gmm_sm_attach_accept.nbe"
+import "gb_gmm_sm_attach_complete.nbe"
+import "gb_gmm_sm_attach_reject.nbe"
+import "gb_gmm_sm_attach_request.nbe"
+import "gb_gmm_sm_authentication_and_ciphering_failure.nbe"
+import "gb_gmm_sm_authentication_and_ciphering_reject.nbe"
+import "gb_gmm_sm_authentication_and_ciphering_request.nbe"
+import "gb_gmm_sm_authentication_and_ciphering_response.nbe"
+import "gb_gmm_sm_deactivate_pdp_context_accept.nbe"
+import "gb_gmm_sm_deactivate_pdp_context_request.nbe"
+import "gb_gmm_sm_detach_accept.nbe"
+import "gb_gmm_sm_detach_request.nbe"
+import "gb_gmm_sm_gmm_information.nbe"
+import "gb_gmm_sm_gmm_status.nbe"
+import "gb_gmm_sm_identity_request.nbe"
+import "gb_gmm_sm_identity_response.nbe"
+import "gb_gmm_sm_modify_pdp_context_accept.nbe"
+import "gb_gmm_sm_modify_pdp_context_reject.nbe"
+import "gb_gmm_sm_modify_pdp_context_request.nbe"
+import "gb_gmm_sm_notification.nbe"
+import "gb_gmm_sm_p_tmsi_reallocation_command.nbe"
+import "gb_gmm_sm_p_tmsi_reallocation_complete.nbe"
+import "gb_gmm_sm_request_mbms_context_activation.nbe"
+import "gb_gmm_sm_request_mbms_context_activation_reject.nbe"
+import "gb_gmm_sm_request_pdp_context_activation.nbe"
+import "gb_gmm_sm_request_pdp_context_activation_reject.nbe"
+import "gb_gmm_sm_request_secondary_pdp_context_activation.nbe"
+import "gb_gmm_sm_request_secondary_pdp_context_activation_reject.nbe"
+import "gb_gmm_sm_routing_area_update_accept.nbe"
+import "gb_gmm_sm_routing_area_update_complete.nbe"
+import "gb_gmm_sm_routing_area_update_reject.nbe"
+import "gb_gmm_sm_routing_area_update_request.nbe"
+import "gb_gmm_sm_service_accept.nbe"
+import "gb_gmm_sm_service_reject.nbe"
+import "gb_gmm_sm_service_request.nbe"
+import "gb_gmm_sm_sm_status.nbe"
+
+import "gb_unknown_signal.nbe"
+import "gb_unknown.nbe"
+
+def sndcp<195, 1> = stream {
+    string gb_layer;
+    string frame_type; 
+    string signal_name;
+    string raw;
+    uint32 raw_len;
+    uint32 next_pos;       #下一层数据起始位置
+    uint32 next_len;       #下一层数据长度
+    string data;
+    uint32 data_len;
+    list<gbe> elements;
+};
+
+def ip<196,1> = stream {
+    string gb_layer;
+    string frame_type; 
+    string signal_name;
+    string raw;
+    uint32 raw_len;
+    uint32 next_pos;       #下一层数据起始位置
+    uint32 next_len;       #下一层数据长度
+    string data;
+    uint32 data_len;
+    list<gbe> elements;
+};
+
+
+def transport<197,1> = stream {
+    string gb_layer;
+    string frame_type;
+    string signal_name;
+    string raw;
+    uint32 raw_len;
+    uint32 next_pos;       #下一层数据起始位置
+    uint32 next_len;       #下一层数据长度
+    string data;
+    uint32 data_len;
+    list<gbe> elements;
+};
+
+def application<199,1> = stream {
+    string gb_layer;
+    string frame_type;
+    string signal_name;
+    string raw;
+    uint32 raw_len;
+    uint32 next_pos;       #下一层数据起始位置
+    uint32 next_len;       #下一层数据长度
+    string data;
+    uint32 data_len;
+    list<gbe> elements;
+};
+
+
+
+def sndcp<101> = proto {
+    extract into gb; 
+    int frame_length @ P(1);
+    list<gbe> ls_elements;
+    stream gbe gbe;
+    list<gbf> ls_fields;
+    stream gbf gbf;
+
+    APP <- ""[ 
+      nbe.cdef[[
+       #include "nbe_common.h"
+       #include "gb_app_common.h"
+       #include "stdio.h"
+
+        BEGIN_SIGNAL("5", "", "");
+        sndcp();
+
+        END_SIGNAL();
+      ]]  
+    ];  
+};
+
+def ip<101> = proto {
+    extract into gb; 
+    int frame_length @ P(1);
+    list<gbe> ls_elements;
+    stream gbe gbe;
+    list<gbf> ls_fields;
+    stream gbf gbf;
+
+    APP <- ""[ 
+      nbe.cdef[[
+       #include "nbe_common.h"
+       #include "gb_app_common.h"
+       #include "stdio.h"
+
+        BEGIN_SIGNAL("6", "IP", "IP");
+        ip();
+
+        END_SIGNAL();
+      ]]  
+    ];  
+
+};
+
+
+def transport<101> = proto {
+    extract into gb; 
+    int frame_length @ P(1);
+    int protocol @ P(2);
+    list<gbe> ls_elements;
+    stream gbe gbe;
+    list<gbf> ls_fields;
+    stream gbf gbf;
+
+    APP <- ""[ 
+      nbe.cdef[[
+       #include "nbe_common.h"
+       #include "gb_app_common.h"
+       #include "stdio.h"
+
+        BEGIN_SIGNAL("7", "TPDU", "");
+        transport(MYVAR(protocol));
+
+        END_SIGNAL();
+      ]]  
+    ];  
+
+};
+
+def application<101> = proto {
+    extract into gb;
+    int frame_length @ P(1);
+    list<gbe> ls_elements;
+    stream gbe gbe;
+    list<gbf> ls_fields;
+    stream gbf gbf;
+
+    APP <- ""[
+      nbe.cdef[[
+       #include "nbe_common.h"
+       #include "gb_app_common.h"
+       #include "stdio.h"
+
+        BEGIN_SIGNAL("8", "APDU", "");
+
+        application();
+
+        END_SIGNAL();
+      ]]
+    ];
+};
+
+
+
+

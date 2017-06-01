@@ -1,0 +1,37 @@
+def gb_public<600, 1> = struct {
+	uint16   frame_head;
+	uint16	 frame_len;
+	uint64   collect_time_s;
+    uint32   collect_time_ms;
+	uint8    board_num;
+	uint8    port_num;
+	uint8    time_slot;
+    uint32   data_num;
+	uint64   parse_time;
+	uint16   data_len;
+	uint8    data_pos;
+    string   ip;
+};
+
+def gb_head<800> = proto {
+	extract into gb_public;
+
+	int frame_head;
+	int frame_len;
+	int skip_len;
+	
+	GB_HEAD <- "" FRAME_HEAD FRAME_LEN COLLECT_TIME BOARD_NUM PORT_NUM TIME_SLOT DATA_NO DATA_CONTENT CHECKSUM;
+
+	FRAME_HEAD <- "" [gb_public.frame_head = b16(); skip(2)];
+	FRAME_LEN <- "" [frame_len = b16(); gb_public.frame_len = frame_len; skip(2)];
+
+	
+	#COLLECT_TIME <- "" [gb_public.collect_time = b64(); skip(8)];
+	COLLECT_TIME <- "" [skip(8)];
+	BOARD_NUM <- "" [gb_public.board_num = b8(); skip(1)];
+	PORT_NUM <- "" [gb_public.port_num = b8(); skip(1)];
+	TIME_SLOT <- "" [gb_public.time_slot = b8(); skip(1)];
+	DATA_NO <- "" [gb_public.data_num = b32(); skip(4)];
+	DATA_CONTENT <- "" [gb_public.data_pos = pos(); skip_len = frame_len - 21; gb_public.data_len = skip_len; skip(skip_len)];
+	CHECKSUM <- "" [skip(2)];
+};

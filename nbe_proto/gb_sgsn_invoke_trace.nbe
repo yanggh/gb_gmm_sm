@@ -1,0 +1,66 @@
+def sgsn_invoke_trace<101> = proto {
+   extract into gb;
+   list<gbe> ls_elements;
+   stream gbe gbe;
+   list<gbf> ls_fields;
+   stream gbf gbf;
+
+   int data_len @ P(1);
+   int dir @ P(2);
+
+   APP <- ""[
+   nbe.cdef[[
+      #include "nbe_common.h"
+      #include "dict.h"
+      #include "gb_l3_common.h"
+      #include "stdio.h"
+
+      BEGIN_SIGNAL("2", "BSSGP Layer", "SGSN-INVOKE-TRACE");
+
+      uint8_t h = 0;
+      int len = 8;
+      int trigger_id_len = 0;
+      int mobile_id_len = 0;
+      int omc_id_len = 0;
+      int transaction_id_len = 0;
+
+      bssgp_pdu_type();
+      trace_type(1, 1);
+      trace_reference(1, 1);
+	  B8_BIT(h, 1, 8);
+	  if (h == 0x24)
+      {
+		trigger_id_len = trigger_id(1, 1);
+		len += trigger_id_len;
+      }
+	  B8_BIT(h, 1, 8);
+	  if (h == 0x11)
+      {
+		mobile_id_len = mobile_identity(1, 1);  //Mobile Id
+		len += mobile_id_len;
+      }
+	  B8_BIT(h, 1, 8);
+	  if (h == 0x14)
+      {
+		omc_id_len = omc_id(1, 1);
+        len += omc_id_len;
+      }
+	  B8_BIT(h, 1, 8);
+	  if (h == 0x23)
+      {
+		transaction_id(1, 1);
+        len += 4;
+      }
+
+      if (MYVAR(data_len) - len > 0)
+      {
+		  uint32_t pos = 0;
+          POS(pos);
+          SET_V(gb, next_pos, pos);
+          SET_V(gb, next_len, MYVAR(data_len) - len);
+      }
+
+      END_SIGNAL();
+   ]]
+   ];
+};

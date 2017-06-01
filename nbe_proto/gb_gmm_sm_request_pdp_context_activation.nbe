@@ -1,0 +1,48 @@
+def request_pdp_context_activation<101> = proto {
+   extract into gb;
+   list<gbe> ls_elements;
+   stream gbe gbe;
+   list<gbf> ls_fields;
+   stream gbf gbf;
+
+   int dir @ P(1);
+   
+   APP <- ""[
+  nbe.cdef[[
+	#include "nbe_common.h"
+	#include "dict.h"
+	#include "gb_l3_common.h"
+	#include "stdio.h"
+    #include "gb_gmm_sm.h"
+
+	BEGIN_SIGNAL("4", "SM", "REQUEST PDP CONTEXT ACTIVATION");
+	
+	uint8_t iei = 0;
+	uint8_t location = 0;
+	uint8_t h = 0;
+
+	si_pd();
+	msg_type(MESSAGE_TYPE_SM);
+	
+	packet_data_protocol_address(iei, location, MYVAR(dir));
+	
+	B8_BIT(h, 1, 8);
+	if(h == 0x28)
+	{
+		iei = 1;
+        location = 1;
+		access_point_name(iei, location);
+	}
+	
+	B8_BIT(h, 1, 8);
+	if(h == 0x27)
+	{
+		iei = 1;
+        location = 1;
+		protocol_configuration_options(iei, location, MYVAR(dir));
+	}
+	
+	END_SIGNAL();
+  ]]
+  ];
+};

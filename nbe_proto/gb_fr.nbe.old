@@ -1,0 +1,23 @@
+def fr_layer<900> = proto {
+    extract into fr_msg; 
+    int data_len @ P(1); 
+
+    list<gbe> ls_elements;
+    stream gbe gbe;
+    list<gbf> ls_fields;
+    stream gbf gbf;
+
+    APP <- ""[ 
+      nbe.cdef[[
+       #include "nbe_common.h"
+       #include "gb_fr_common.h"
+       #include "stdio.h"
+
+        BEGIN_LAPDM();
+
+        fr_layer(MYVAR(data_len));
+
+        END_LAPDM();
+      ]]  
+    ];  
+};

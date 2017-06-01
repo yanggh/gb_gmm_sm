@@ -1,0 +1,162 @@
+def attach_accept<101> = proto {
+    extract into gb;
+    list<gbe> ls_elements;
+    stream gbe gbe;
+    list<gbf> ls_fields;
+    stream gbf gbf;
+
+    APP <- ""[
+    nbe.cdef[[
+    #include "nbe_common.h"
+    #include "dict.h"
+    #include "gb_l3_common.h"
+    #include "stdio.h"
+    #include "gb_gmm_sm.h"
+
+    uint8_t iei = 0;
+    uint8_t location = 0;
+    uint8_t h = 0;
+
+    BEGIN_SIGNAL("4", "GMM", "ATTACH ACCEPT");
+    si_pd();
+    msg_type(MESSAGE_TYPE_GMM);
+
+    force_to_standby(iei, location);
+    location = 1;
+    attach_result(iei, location);
+
+    location = 0;
+    gprs_timer(iei, location);
+
+    radio_priority_2(iei, location);
+    location = 1;
+    radio_priority(iei, location);
+    location = 0;
+    routeing_area(iei, location);
+    //routing_area_identification(iei, location);
+
+    B8_BIT(h, 1, 8);
+    if(h == 0x19)
+    {
+        iei = 1;
+        p_tmsi_signature(iei, location);
+    }
+
+    B8_BIT(h, 1, 8);
+    if(h == 0x17)
+    {
+        iei = 1;
+        gprs_timer(iei, location);
+    }
+
+    B8_BIT(h, 1, 8);
+    if(h == 0x18)
+    {
+        iei = 1;
+        location = 1;
+        mobile_identity(iei, location);
+    }
+
+    B8_BIT(h, 1, 8);
+    if(h == 0x23)
+    {
+        iei = 1;
+        location = 1;
+        mobile_identity(iei, location);
+    }
+
+    B8_BIT(h, 1, 8);
+    if(h == 0x25)
+    {
+        iei = 1;
+        gmm_cause(iei, location);
+    }
+
+    B8_BIT(h, 1, 8);
+    if(h == 0x2a)
+    {
+        iei = 1;
+        location = 1;
+        gprs_timer_2(iei, location);
+    }
+
+    B8_BIT(h, 1, 8);
+    if(h == 0x8c)
+    {
+        iei = 1;
+        cell_notification(iei, location);
+    }
+
+    B8_BIT(h, 1, 8);
+    if(h == 0x4a)
+    {
+        iei = 1;
+        location = 1;
+        plmn_list(iei, location);
+    }
+
+    B8_BIT(h, 1, 8);
+    if((h & 0xf0) == 0xb0)
+    {
+        iei = 1;
+        network_feature_support(iei, location);
+    }
+
+    B8_BIT(h, 1, 8);
+    if(h == 0x34)
+    {
+        iei = 1;
+        location = 1;
+        emergency_number_list(iei, location);
+    }
+
+    B8_BIT(h, 1, 8);
+    if((h & 0xf0) == 0xa0)
+    {
+        iei = 1;
+        requested_ms_information(iei, location);
+    }
+
+    B8_BIT(h, 1, 8);
+    if(h == 0x37)
+    {
+        iei = 1;
+        location = 1;
+        gprs_timer_2(iei, location);
+    }
+
+    B8_BIT(h, 1, 8);
+    if(h == 0x38)
+    {
+        iei = 1;
+        location = 1;
+        gprs_timer_2(iei, location);
+    }
+
+    B8_BIT(h, 1, 8);
+    if(h == 0x39)
+    {
+        iei = 1;
+        location = 1;
+        gprs_timer_2(iei, location);
+    }
+
+    B8_BIT(h, 1, 8);
+    if(h == 0x66)
+    {
+        iei = 1;
+        location = 1;
+        additional_network_feature_support(iei, location);
+    }
+
+    B8_BIT(h, 1, 8);
+    if(h == 0x6a)
+    {
+        iei = 1;
+        location = 1;
+        gprs_timer_2(iei, location);
+    }
+    END_SIGNAL();
+    ]]
+    ];
+};

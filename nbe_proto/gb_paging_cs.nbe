@@ -1,0 +1,97 @@
+def paging_cs<101> = proto {
+   extract into gb;
+   list<gbe> ls_elements;
+   stream gbe gbe;
+   list<gbf> ls_fields;
+   stream gbf gbf;
+
+   int data_len @ P(1);
+   int dir @ P(2);
+
+   APP <- ""[
+   nbe.cdef[[
+      #include "nbe_common.h"
+      #include "dict.h"
+      #include "gb_l3_common.h"
+      #include "stdio.h"
+
+      BEGIN_SIGNAL("2", "BSSGP Layer", "PAGING CS");
+
+      uint8_t h = 0;
+      int len = 0;
+      int mob_len = 0;
+
+      bssgp_pdu_type();
+	  mob_len = imsi(1, 1);   //IMSI
+      len = 1 + mob_len;
+
+	  drx_parameters(1, 1);
+      len += 4;
+
+	  B8_BIT(h, 1, 8);
+	  if (h == 0x04)
+      {
+		bssgp_bvci(1, 1);
+        len += 4;
+      }
+
+	  B8_BIT(h, 1, 8);
+	  if (h == 0x10)
+      {
+		location_area(1, 1);
+        len += 7;
+      }
+
+	  B8_BIT(h, 1, 8);
+	  if (h == 0x1b)
+      {
+		routeing_area(1, 1);
+        len += 8;
+      }
+
+	  B8_BIT(h, 1, 8);
+	  if (h == 0x02)
+      {
+		bss_area_indication(1, 1);
+        len += 3;
+      }
+
+	  B8_BIT(h, 1, 8);
+	  if (h == 0x1f)
+      {
+		bssgp_tlli(1, 1);
+        len += 6;
+      }
+
+	  B8_BIT(h, 1, 8);
+	  if (h == 0x09)
+      {
+		bssgp_channel_needed(1, 1);
+        len += 3;
+      }
+	  B8_BIT(h, 1, 8);
+	  if (h == 0x0b)
+      {
+		emlpp_priority(1, 1);
+        len += 3;
+      }
+
+	  B8_BIT(h, 1, 8);
+	  if (h == 0x20)
+      {
+		tmsi(1, 1);
+        len += 6;
+      }
+	  
+      if (MYVAR(data_len) - len > 0)
+      {
+		  uint32_t pos = 0;
+          POS(pos);
+          SET_V(gb, next_pos, pos);
+          SET_V(gb, next_len, MYVAR(data_len) - len);
+      }
+
+      END_SIGNAL();
+   ]]
+   ];
+};

@@ -1,0 +1,67 @@
+def service_request<101> = proto {
+   extract into gb;
+   list<gbe> ls_elements;
+   stream gbe gbe;
+   list<gbf> ls_fields;
+   stream gbf gbf;
+
+   int dir @ P(1);
+   
+   APP <- ""[
+  nbe.cdef[[
+	#include "nbe_common.h"
+	#include "dict.h"
+	#include "gb_l3_common.h"
+	#include "stdio.h"
+    #include "gb_gmm_sm.h"
+
+	BEGIN_SIGNAL("4", "GMM", "SERVICE REQUEST");
+	
+
+	uint8_t iei = 0;
+	uint8_t location = 0;
+	uint8_t h = 0;
+
+	si_pd();
+	msg_type(MESSAGE_TYPE_GMM);
+	
+	service_type(iei, location);
+    location = 1;
+	key_sequence(iei, location);
+	mobile_identity(iei, location);
+	
+	B8_BIT(h, 1, 8);
+	if(h == 0x32)
+	{
+		iei = 1;
+        location = 1;
+		pdp_context_status(iei, location);
+	}
+	
+	B8_BIT(h, 1, 8);
+	if(h == 0x35)
+	{
+		iei = 1;
+        location = 1;
+		mbms_context_status(iei, location);
+	}
+	
+	B8_BIT(h, 1, 8);
+	if(h == 0x36)
+	{
+		iei = 1;
+        location = 1;
+		uplink_data_status(iei, location);
+	}
+	
+	B8_BIT(h, 1, 8);
+	if((h & 0xf0) == 0xd0)
+	{
+		iei = 1;
+        location = 1;
+		device_properties(iei, location);
+	}
+	END_SIGNAL();
+  ]]
+  ];
+};

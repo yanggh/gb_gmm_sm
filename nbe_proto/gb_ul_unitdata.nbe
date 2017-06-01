@@ -1,0 +1,56 @@
+def ul_unitdata<101> = proto {
+   extract into gb;
+   list<gbe> ls_elements;
+   stream gbe gbe;
+   list<gbf> ls_fields;
+   stream gbf gbf;
+
+   int data_len @ P(1);
+   int dir @ P(2);
+
+   APP <- ""[
+   nbe.cdef[[
+      #include "nbe_common.h"
+      #include "dict.h"
+      #include "gb_l3_common.h"
+      #include "stdio.h"
+
+      BEGIN_SIGNAL("2", "BSSGP Layer", "UL-UNITDATA");
+
+      uint8_t h = 0;
+      int len = 18;
+      int lsa_len = 0;
+	  int ali_len = 0;
+	  int llc_pdu_len = 0;
+      bssgp_pdu_type();
+	  bssgp_tlli(0, 0);
+	  qos_profile(0, 0, 0);
+      cell_identifier(1, 1);
+
+	  B8_BIT(h, 1, 8);
+	  if (h == 0x28)
+	  {
+		packet_flow_identifier(1, 1);
+        len += 3;
+      }
+	  B8_BIT(h, 1, 8);
+	  if (h == 0x27)
+		lsa_len = lsa_identifier_list(1, 1);
+	  B8_BIT(h, 1, 8);
+	  if (h == 0x00)
+		ali_len = alignment_octets(1, 1);
+
+      llc_pdu_len = llc_pdu(1, 1);
+	  
+      if (MYVAR(data_len) - len - lsa_len - ali_len - llc_pdu_len > 0)
+      {
+		  uint32_t pos = 0;
+          POS(pos);
+          SET_V(gb, next_pos, pos);
+          SET_V(gb, next_len, MYVAR(data_len) - len - lsa_len - ali_len - llc_pdu_len);
+      }
+
+      END_SIGNAL();
+   ]]
+   ];
+};

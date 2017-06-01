@@ -1,0 +1,4 @@
+/opt/Server/gb_proto_parse/gb_nbe_proto/CMakeFiles/gb_gmm_sm_test.dir
+/opt/Server/gb_proto_parse/gb_nbe_proto/CMakeFiles/gb_l2_test.dir
+/opt/Server/gb_proto_parse/gb_nbe_proto/gen/CMakeFiles/gb_proto.dir
+/opt/Server/gb_proto_parse/gb_nbe_proto/CMakeFiles/gb_protocol_test.dir

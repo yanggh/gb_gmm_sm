@@ -1,0 +1,57 @@
+def fr_layer<900> = proto {
+    extract into fr_msg; 
+    int data_len @ P(1); 
+
+    list<gbe> ls_elements;
+    stream gbe gbe;
+    list<gbf> ls_fields;
+    stream gbf gbf;
+
+    APP <- ""[ 
+      nbe.cdef[[
+       #include "nbe_common.h"
+       #include "gb_fr_common.h"
+       #include "stdio.h"
+
+        BEGIN_LAPDM();
+
+        //fr_layer(MYVAR(data_len));
+		int dlci_value = -1;
+        dlci_value = address_field(MYVAR(data_len));
+		if(dlci_value == 0)
+		{
+			int msg_type = -1;
+			int report_type_v = -1;
+
+			control_field();
+			pd();
+			call_reference();
+			msg_type = message_type();
+			if(msg_type == 125)
+			{
+				report_type_v = report_type();
+				if(report_type_v == 0)
+				{
+					link_intefrity_verification();
+					pvc_status();
+				}
+				else if(report_type_v == 1)
+				{
+					link_intefrity_verification();
+				}
+				else if(report_type_v == 2)
+				{
+					pvc_status();
+				}
+			}
+			else if(msg_type == 117)
+			{
+				report_type();
+				link_intefrity_verification();
+			}
+		}
+
+        END_LAPDM();
+      ]]  
+    ];  
+};

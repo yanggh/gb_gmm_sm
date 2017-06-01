@@ -1,0 +1,52 @@
+def ns_status<101> = proto {
+   extract into gb;
+   list<gbe> ls_elements;
+   stream gbe gbe;
+   list<gbf> ls_fields;
+   stream gbf gbf;
+
+   int data_len @ P(1);
+
+   APP <- ""[
+   nbe.cdef[[
+      #include "nbe_common.h"
+      #include "dict.h"
+      #include "gb_l3_common.h"
+      #include "stdio.h"
+
+      BEGIN_SIGNAL("1", "NS Layer", "NS-STATUS");
+
+      int len = 4;
+      ns_pdu_type();
+      int cause_v = ns_cause();
+      if(MYVAR(data_len) - 4 > 0)
+      {
+        if (cause_v == 3 || cause_v == 4)
+        {
+          ns_vci();
+          len += 4;
+        }
+        else if (cause_v == 8 || (cause_v > 9 && cause_v < 14))
+        {
+          int ns_pdu_len = 0;
+          ns_pdu_len = ns_pdu();
+          len += ns_pdu_len;
+        }
+        else if(cause_v == 5)
+        {
+          bvci(1, 1);
+          len += 4;
+        }
+      }
+      if (MYVAR(data_len) - len > 0)
+      {
+		  uint32_t pos = 0;  
+          POS(pos);          
+          SET_V(gb, next_pos, pos);
+          SET_V(gb, next_len, MYVAR(data_len) - len);
+      }
+
+      END_SIGNAL();
+   ]]
+   ];
+};

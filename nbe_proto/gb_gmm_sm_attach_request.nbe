@@ -1,0 +1,182 @@
+def attach_request<101> = proto {
+	extract into gb;
+	list<gbe> ls_elements;
+	stream gbe gbe;
+	list<gbf> ls_fields;
+	stream gbf gbf;
+
+	APP <- ""[
+	nbe.cdef[[
+	#include "nbe_common.h"
+	#include "dict.h"
+	#include "gb_l3_common.h"
+	#include "stdio.h"
+	#include "gb_gmm_sm.h"
+
+	uint8_t iei = 0;
+	uint8_t location = 0;
+	uint8_t h = 0;
+
+	BEGIN_SIGNAL("4", "GMM", "ATTACH REQUEST");
+	si_pd();
+	msg_type(MESSAGE_TYPE_GMM);
+    location = 1;
+	ms_network_capability(iei, location);
+
+    location = 0;
+    key_sequence(iei, location);
+	location = 1;
+	attach_type(iei, location);
+	location = 0;
+	drx_paramete(iei, location);
+	mobile_identity(iei, location);
+    routeing_area(iei, location);
+	//routing_area_identification(iei, location);
+	gmm_ms_radio_access_capability(iei, 1);
+	B8_BIT(h, 1, 8);
+	if(h == 0x19)
+	{
+		iei = 1;
+		p_tmsi_signature(iei, location);
+	}
+
+	B8_BIT(h, 1, 8);
+	if(h == 0x17)
+	{
+		iei = 1;
+		gprs_timer(iei, location);
+	}	
+	B8_BIT(h, 1, 8);
+	if((h & 0xf0) == 0x90)
+	{
+		iei = 1;
+		tmsi_status(iei, location);
+	}
+
+	B8_BIT(h, 1, 8);
+	if(h == 0x33)
+	{
+		iei = 1;
+        location = 1;
+		ps_lcs_capability(iei, location);
+	}
+
+	B8_BIT(h, 1, 8);
+	if(h == 0x11)
+	{
+		iei = 1;
+        location = 1;
+		mobile_station(iei, location);
+	}
+
+	B8_BIT(h, 1, 8);
+	if(h == 0x20)
+	{
+		iei = 1;
+        location = 1;
+		mobile_station_classmark_3(iei, location);
+	}
+
+	B8_BIT(h, 1, 8);
+	if(h == 0x40)
+	{
+		iei = 1;
+		supported_codec_list(iei, location);
+	}
+
+	B8_BIT(h, 1, 8);
+	if(h == 0x58)
+	{
+		iei = 1;
+        location = 1;
+		ue_network_capability(iei, location);
+	}
+
+	B8_BIT(h, 1, 8);
+	if(h == 0x1a)
+	{
+		iei = 1;
+		mobile_identity(iei, location);
+	}
+
+	B8_BIT(h, 1, 8);
+	if(h == 0x1b)
+	{
+		iei = 1;
+        location = 1;
+		routing_area_identification_2(iei, location);
+	}
+
+	B8_BIT(h, 1, 8);
+	if(h == 0x5d)
+	{
+		iei = 1;
+        location = 1;
+		voice_domain_preference_and_ue_usage_setting(iei, location);
+	}
+
+	B8_BIT(h, 1, 8);
+	if((h & 0xf0) == 0xd0)
+	{
+		iei = 1;
+		device_properties(iei, location);
+	}
+
+	B8_BIT(h, 1, 8);
+	if((h & 0xf0) == 0xe0)
+	{
+		iei = 1;
+		p_tmsi_type(iei, location);
+	}
+
+	B8_BIT(h, 1, 8);
+	if(h & 0xc0 == 0xc0)
+	{
+		iei = 1;
+		ms_network_feature_support(iei, location);
+	}
+
+	B8_BIT(h, 1, 8);
+	if(h = 0x14)
+	{
+		iei = 1;
+        location = 1;
+		location_area_identification_2(iei, location);
+	}
+
+	B8_BIT(h, 1, 8);
+	if((h & 0xf0) == 0xf0)
+	{
+		iei = 1;
+        location = 1;
+		location_area_identification_2(iei, location);
+	}
+
+	B8_BIT(h, 1, 8);
+	if(h == 0x10)
+	{
+		iei = 1;
+        location = 1;
+		network_resource_identifier_container(iei, location);
+	}
+
+	B8_BIT(h, 1, 8);
+	if(h == 0x6a)
+	{
+		iei = 1;
+        location = 1;
+		gprs_timer_2(iei, location);
+	}
+
+	B8_BIT(h, 1, 8);
+	if(h == 0x39)
+	{
+		iei = 1;
+        location = 1;
+		gprs_timer_3(iei, location);
+	}
+
+	END_SIGNAL();
+	]]
+		];
+};

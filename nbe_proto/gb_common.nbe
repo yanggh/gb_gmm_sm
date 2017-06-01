@@ -1,0 +1,42 @@
+#gb msg structure.
+#gb msg node
+#import "gb.nbe"
+def fr_msg<1005,1> = stream {
+    string layer;
+    string frame_type;
+    string signal_type;
+    string raw;
+    uint32 raw_len;
+    uint32 next_pos;       #下一层数据起始位置
+    uint32 next_len;       #下一层数据长度
+    list<gbe>  elements;
+};
+
+def gb<1000,1> = stream {
+    string layer;
+    string frame_type; #cell1 /cell2 /l3_1/l3_3
+    string signal_name;
+    string raw;
+    uint32 raw_len;
+    uint32 next_pos;       #下一层数据起始位置
+    uint32 next_len;       #下一层数据长度
+    string data;
+    uint32 data_len;
+    list<gbe> elements;
+};
+
+#gb element node
+def gbe<1001,1> = stream {
+    string element_name;
+    string element_desc;
+    list<gbf> fields;
+};
+
+def gbf<1002,1> = stream {
+    string f_name;
+    string f_id; #需要固定域名字的时候设置
+    uint64 f;
+    string f_bin;
+    string f_hex;
+    string f_desc;
+};

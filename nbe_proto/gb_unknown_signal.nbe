@@ -1,0 +1,22 @@
+def gb_unknown_signal<101> = proto {
+   extract into gb;
+   list<gbe> ls_elements;
+   stream gbe gbe;
+   list<gbf> ls_fields;
+   stream gbf gbf;
+
+   APP <- ""[
+   nbe.cdef[[
+      #include "nbe_common.h"
+      #include "dict.h"
+      #include "gb_l3_common.h"
+      #include "stdio.h"
+
+      BEGIN_SIGNAL("5", "Unknown", "Unknown");
+
+      si_pd();
+      msg_type(MESSAGE_TYPE_UNKNOWN);
+      END_SIGNAL();
+   ]]
+   ];
+};

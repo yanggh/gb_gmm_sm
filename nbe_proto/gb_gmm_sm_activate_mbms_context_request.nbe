@@ -1,0 +1,51 @@
+def activate_mbms_context_request<101> = proto {
+   extract into gb;
+   list<gbe> ls_elements;
+   stream gbe gbe;
+   list<gbf> ls_fields;
+   stream gbf gbf;
+
+   int dir @ P(1);
+   
+   APP <- ""[
+  nbe.cdef[[
+	#include "nbe_common.h"
+	#include "dict.h"
+	#include "gb_l3_common.h"
+	#include "stdio.h"
+    #include "gb_gmm_sm.h"
+
+	BEGIN_SIGNAL("4", "SM", "ACTIVATE MBMS CONTEXT REQUEST");
+	
+	uint8_t iei = 0;
+	uint8_t location = 0;
+	uint8_t h = 0;
+
+	si_pd();
+	msg_type(MESSAGE_TYPE_SM);
+	
+	enhanced_network_service_access_point_identifier(iei, location);
+	llc_service_access_point_identifier(iei, location);
+	mbms_bearer_capabilities(iei, 1);
+	packet_data_protocol_address(iei, 1, MYVAR(dir));
+	access_point_name(iei, 1);
+	
+	B8_BIT(h, 1, 8);
+	if(h == 0x35)
+	{
+		iei = 1;
+        location = 1;
+		mbms_protocol_configuration_options(iei, location);
+	}
+
+	B8_BIT(h, 1, 8);
+	if((h & 0xf0) == 0xc0)
+	{
+		iei = 1;
+		device_properties(iei, location);
+	}
+
+	END_SIGNAL();
+  ]]
+  ];
+};

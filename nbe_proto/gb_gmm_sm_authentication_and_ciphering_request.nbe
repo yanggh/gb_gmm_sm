@@ -1,0 +1,62 @@
+def authentication_and_ciphering_request<101> = proto {
+   extract into gb;
+   list<gbe> ls_elements;
+   stream gbe gbe;
+   list<gbf> ls_fields;
+   stream gbf gbf;
+
+   int dir @ P(1);
+
+  APP <- ""[
+  nbe.cdef[[
+	#include "nbe_common.h"
+	#include "dict.h"
+	#include "gb_l3_common.h"
+	#include "stdio.h"
+    #include "gb_gmm_sm.h"
+
+	BEGIN_SIGNAL("4", "GMM", "AUTHENTICATION AND CIPHERING REQUEST");
+	
+
+	uint8_t iei = 0;
+	uint8_t location = 0;
+	uint8_t h = 0;
+
+	si_pd();
+	msg_type(MESSAGE_TYPE_GMM);
+	
+	imeisv_request(iei, location);
+	location = 1;
+    ciphering_algorithm(iei, location);
+
+	location = 0;
+	ac_reference_number(iei, location);
+	location = 1;
+	force_to_standby(iei, location);
+	location = 0;
+
+	B8_BIT(h, 1, 8);
+	if(h == 0x21)
+	{
+		iei = 1;
+		authentication_parameter_r(iei, location);
+	}
+	
+	B8_BIT(h, 1, 8);
+	if((h&0xf0) == 0x80)
+	{
+		iei = 1;
+		key_sequence(iei, location);
+	}
+	
+	B8_BIT(h, 1, 8);
+	if(h == 0x28)
+	{
+		iei = 1;
+        location = 1;
+		authentication_parameter_a(iei, location);
+	}
+	END_SIGNAL();
+  ]]
+  ];
+};

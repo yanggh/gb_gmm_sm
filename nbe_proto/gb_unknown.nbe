@@ -1,0 +1,56 @@
+def gb_unknown<101> = proto {
+   extract into gb;
+   list<gbe> ls_elements;
+   stream gbe gbe;
+   list<gbf> ls_fields;
+   stream gbf gbf;
+
+   int data_len @ P(1);
+   int layer @ P(2);
+
+   APP <- ""[
+   nbe.cdef[[
+      #include "nbe_common.h"
+      #include "dict.h"
+      #include "gb_l3_common.h"
+      #include "stdio.h"
+      uint8_t str_layer[2] = {0};
+
+      switch(MYVAR(layer))
+      {
+	    case 0:
+        {
+            strcpy((char *)str_layer, "0");
+            break;
+        }
+	    case 1:
+        {
+            strcpy((char *)str_layer, "1");
+            break;
+        }
+	    case 2:
+        {
+            strcpy((char *)str_layer, "2");
+            break;
+        }
+	    case 3:
+        {
+            strcpy((char *)str_layer, "3");
+            break;
+        }
+	    case 4:
+        {
+            strcpy((char *)str_layer, "4");
+            break;
+        }
+	    default:
+        {
+	    	break;
+        }
+      }
+
+	  BEGIN_SIGNAL((uint8_t *)str_layer, "Unknown", "Unknown");
+      END_SIGNAL();
+   ]]
+   ];
+};

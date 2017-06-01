@@ -1,0 +1,32 @@
+def ns_unblock_ack<101> = proto {
+   extract into gb;
+   list<gbe> ls_elements;
+   stream gbe gbe;
+   list<gbf> ls_fields;
+   stream gbf gbf;
+
+   int data_len @ P(1);
+
+   APP <- ""[
+   nbe.cdef[[
+      #include "nbe_common.h"
+      #include "dict.h"
+      #include "gb_l3_common.h"
+      #include "stdio.h"
+
+      BEGIN_SIGNAL("1", "NS Layer", "NS-UNBLOCK-ACK");
+
+      ns_pdu_type();
+
+      if (MYVAR(data_len) - 1 > 0)
+      {
+          uint32_t pos = 0;
+          POS(pos);
+          SET_V(gb, next_pos, pos);
+          SET_V(gb, next_len, MYVAR(data_len) - 1);
+      }
+
+      END_SIGNAL();
+   ]]
+   ];
+};
