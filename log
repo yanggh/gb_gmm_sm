@@ -1,0 +1,54 @@
+[ 98%] Built target gb_proto
+[ 98%] Built target gb_gmm_sm_test
+[ 99%] Built target gb_l2_test
+[100%] Building C object CMakeFiles/gb_protocol_test.dir/gb_protocol_test.c.o
+/opt/Server/gb_proto_parse/gb_nbe_proto/gb_protocol_test.c: In function ‘test_sndcp’:
+/opt/Server/gb_proto_parse/gb_nbe_proto/gb_protocol_test.c:350:5: warning: implicit declaration of function ‘NEW’ [-Wimplicit-function-declaration]
+     void *data_ctx = NEW(NULL);
+     ^
+/opt/Server/gb_proto_parse/gb_nbe_proto/gb_protocol_test.c:350:22: warning: initialization makes pointer from integer without a cast [enabled by default]
+     void *data_ctx = NEW(NULL);
+                      ^
+/opt/Server/gb_proto_parse/gb_nbe_proto/gb_protocol_test.c:353:5: warning: implicit declaration of function ‘PARSE’ [-Wimplicit-function-declaration]
+     PARSE(data_ctx, msg, sizeof(msg), 1, NULL);
+     ^
+/opt/Server/gb_proto_parse/gb_nbe_proto/gb_protocol_test.c:353:21: error: ‘msg’ undeclared (first use in this function)
+     PARSE(data_ctx, msg, sizeof(msg), 1, NULL);
+                     ^
+/opt/Server/gb_proto_parse/gb_nbe_proto/gb_protocol_test.c:353:21: note: each undeclared identifier is reported only once for each function it appears in
+/opt/Server/gb_proto_parse/gb_nbe_proto/gb_protocol_test.c:354:5: warning: implicit declaration of function ‘GET’ [-Wimplicit-function-declaration]
+     nbe_pu_gb *data = GET(data_ctx);
+     ^
+/opt/Server/gb_proto_parse/gb_nbe_proto/gb_protocol_test.c:354:23: warning: initialization makes pointer from integer without a cast [enabled by default]
+     nbe_pu_gb *data = GET(data_ctx);
+                       ^
+/opt/Server/gb_proto_parse/gb_nbe_proto/gb_protocol_test.c:356:2: warning: implicit declaration of function ‘remove_json’ [-Wimplicit-function-declaration]
+  remove_json(json);
+  ^
+/opt/Server/gb_proto_parse/gb_nbe_proto/gb_protocol_test.c:348:9: warning: unused variable ‘msg_type’ [-Wunused-variable]
+     int msg_type = 0;
+         ^
+/opt/Server/gb_proto_parse/gb_nbe_proto/gb_protocol_test.c:347:9: warning: unused variable ‘pd’ [-Wunused-variable]
+     int pd = 1;
+         ^
+/opt/Server/gb_proto_parse/gb_nbe_proto/gb_protocol_test.c:345:9: warning: unused variable ‘frame_length’ [-Wunused-variable]
+     int frame_length;
+         ^
+/opt/Server/gb_proto_parse/gb_nbe_proto/gb_protocol_test.c: At top level:
+/opt/Server/gb_proto_parse/gb_nbe_proto/gb_protocol_test.c:360:6: warning: no previous prototype for ‘remove_json’ [-Wmissing-prototypes]
+ void remove_json(char *json)
+      ^
+/opt/Server/gb_proto_parse/gb_nbe_proto/gb_protocol_test.c:360:6: warning: conflicting types for ‘remove_json’ [enabled by default]
+/opt/Server/gb_proto_parse/gb_nbe_proto/gb_protocol_test.c:356:2: note: previous implicit declaration of ‘remove_json’ was here
+  remove_json(json);
+  ^
+/opt/Server/gb_proto_parse/gb_nbe_proto/gb_protocol_test.c: In function ‘remove_json’:
+/opt/Server/gb_proto_parse/gb_nbe_proto/gb_protocol_test.c:368:14: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     while (i < strlen(json) - 3)
+              ^
+/opt/Server/gb_proto_parse/gb_nbe_proto/gb_protocol_test.c:381:10: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  while(i < strlen(json))
+          ^
+make[2]: *** [CMakeFiles/gb_protocol_test.dir/gb_protocol_test.c.o] Error 1
+make[1]: *** [CMakeFiles/gb_protocol_test.dir/all] Error 2
+make: *** [all] Error 2

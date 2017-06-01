@@ -1,0 +1,386 @@
+select gb_parse_to_json(0::smallint, '04 41 00 01 00 0d 01 c0 02 80 00 00 0b 04 08 88 64 f0 02 21 10 00 90 03 00 80 0e 00 5a 01 c0 05 6a 41 05 03 0c 23 00 1f 80 00 00 00 00 00 00 00 00 02 01 8d 28 06 05 63 6d 6e 65 74 27 36 80 80 21 10 01 01 00 10 81 06 00 00 00 00 83 06 00 00 00 00 c0 23 10 01 01 00 10 05 63 6d 6e 65 74 05 63 6d 6e 65 74 00 03 00 00 05 00 00 0a 00 00 0d 00 00 10 00 38 60 06', 119, 0::smallint);
+
+
+{
+	"fr_layer":{
+		"layer":"0",
+		"frame_type":"FR Layer",
+		"signal_type":"USER DATA",
+		"raw":"04 41 00 01 00 0d 01 c0 02 80 00 00 0b 04 08 88 64 f0 02 21 10 00 90 03 00 80 0e 00 5a 01 c0 05 6a 41 05 03 0c 23 00 1f 80 00 00 00 00 00 00 00 00 02 01 8d 28 06 05 63 6d 6e 65 74 27 36 80 80 21 10 01 01 00 10 81 06 00 00 00 00 83 06 00 00 00 00 c0 23 10 01 01 00 10 05 63 6d 6e 65 74 05 63 6d 6e 65 74 00 03 00 00 05 00 00 0a 00 00 0d 00 00 10 00 38 60 06 ",
+		"raw_len":119,
+		"next_pos":2,
+		"next_len":117,
+		"elements":[
+			{
+				"element_name":"fr_layer",
+				"element_desc":"FR Layer",
+				"fields":[
+					{
+						"f_name":"Upper DLCI",
+						"f_id":"upper_dlci",
+						"f":"1",
+						"f_bin":"000001--",
+						"f_hex":"04",
+						"f_desc":"1"
+					},
+					{
+						"f_name":"Command response bit (C/R)",
+						"f_id":"cr",
+						"f":"0",
+						"f_bin":"------0-",
+						"f_hex":null,
+						"f_desc":"Command"
+					},
+					{
+						"f_name":"Address field extension bit",
+						"f_id":"ea",
+						"f":"0",
+						"f_bin":"-------0",
+						"f_hex":null,
+						"f_desc":"Another Octet follows"
+					},
+					{
+						"f_name":"Lower DLCI",
+						"f_id":"lower_dlci",
+						"f":"4",
+						"f_bin":"0100----",
+						"f_hex":"41",
+						"f_desc":"20"
+					},
+					{
+						"f_name":"FECN",
+						"f_id":"fecn",
+						"f":"0",
+						"f_bin":"----0---",
+						"f_hex":null,
+						"f_desc":"0"
+					},
+					{
+						"f_name":"BECN",
+						"f_id":"becn",
+						"f":"0",
+						"f_bin":"-----0--",
+						"f_hex":null,
+						"f_desc":"0"
+					},
+					{
+						"f_name":"Discard eligibility indicator",
+						"f_id":"de",
+						"f":"0",
+						"f_bin":"------0-",
+						"f_hex":null,
+						"f_desc":"Can't be discard"
+					},
+					{
+						"f_name":"Address field extension bit",
+						"f_id":"ea",
+						"f":"1",
+						"f_bin":"-------1",
+						"f_hex":null,
+						"f_desc":"Final Octet"
+					}
+				]
+			}
+		]
+	},
+	"ns_layer":{
+		"layer":"1",
+		"frame_type":"NS Layer",
+		"signal_name":"NS-UNITDATA",
+		"raw":"00 01 00 0d 01 c0 02 80 00 00 0b 04 08 88 64 f0 02 21 10 00 90 03 00 80 0e 00 5a 01 c0 05 6a 41 05 03 0c 23 00 1f 80 00 00 00 00 00 00 00 00 02 01 8d 28 06 05 63 6d 6e 65 74 27 36 80 80 21 10 01 01 00 10 81 06 00 00 00 00 83 06 00 00 00 00 c0 23 10 01 01 00 10 05 63 6d 6e 65 74 05 63 6d 6e 65 74 00 03 00 00 05 00 00 0a 00 00 0d 00 00 10 00 38 60 06 ",
+		"raw_len":117,
+		"next_pos":4,
+		"next_len":113,
+		"data":null,
+		"data_len":0,
+		"elements":[
+			{
+				"element_name":"pdu_type",
+				"element_desc":"PDU type",
+				"fields":[
+					{
+						"f_name":"PDU type",
+						"f_id":"pdu_t",
+						"f":"0",
+						"f_bin":"00000000",
+						"f_hex":"00",
+						"f_desc":"NS-UNITDATA"
+					}
+				]
+			},
+			{
+				"element_name":"spare",
+				"element_desc":"SPARE",
+				"fields":[
+					{
+						"f_name":"spare octet",
+						"f_id":"spare",
+						"f":"1",
+						"f_bin":"00000001",
+						"f_hex":"01",
+						"f_desc":"1"
+					}
+				]
+			},
+			{
+				"element_name":"bvci",
+				"element_desc":"BVCI",
+				"fields":[
+					{
+						"f_name":"most significant octet",
+						"f_id":"most_significant_octe",
+						"f":"0",
+						"f_bin":"00000000",
+						"f_hex":"00",
+						"f_desc":"-"
+					},
+					{
+						"f_name":"least significant octet",
+						"f_id":"least_significant_octe",
+						"f":"13",
+						"f_bin":"00001101",
+						"f_hex":"0d",
+						"f_desc":"13"
+					}
+				]
+			}
+		]
+	},
+	"bssgp_layer":{
+		"layer":"2",
+		"frame_type":"BSSGP Layer",
+		"signal_name":"UL-UNITDATA",
+		"raw":"01 c0 02 80 00 00 0b 04 08 88 64 f0 02 21 10 00 90 03 00 80 0e 00 5a 01 c0 05 6a 41 05 03 0c 23 00 1f 80 00 00 00 00 00 00 00 00 02 01 8d 28 06 05 63 6d 6e 65 74 27 36 80 80 21 10 01 01 00 10 81 06 00 00 00 00 83 06 00 00 00 00 c0 23 10 01 01 00 10 05 63 6d 6e 65 74 05 63 6d 6e 65 74 00 03 00 00 05 00 00 0a 00 00 0d 00 00 10 00 38 60 06 ",
+		"raw_len":113,
+		"next_pos":0,
+		"next_len":0,
+		"data":null,
+		"data_len":0,
+		"elements":[
+			{
+				"element_name":"pdu_type",
+				"element_desc":"PDU type",
+				"fields":[
+					{
+						"f_name":"PDU type",
+						"f_id":"pdu_t",
+						"f":"1",
+						"f_bin":"00000001",
+						"f_hex":"01",
+						"f_desc":"UL-UNITDATA"
+					}
+				]
+			},
+			{
+				"element_name":"tlli",
+				"element_desc":"TLLI",
+				"fields":[
+					{
+						"f_name":"TLLI value",
+						"f_id":"tmsi_p_tmsi_value",
+						"f":"192",
+						"f_bin":"11000000",
+						"f_hex":"c0",
+						"f_desc":"-"
+					},
+					{
+						"f_name":"TLLI value (contd)",
+						"f_id":"tmsi_p_tmsi_value",
+						"f":"2",
+						"f_bin":"00000010",
+						"f_hex":"02",
+						"f_desc":"-"
+					},
+					{
+						"f_name":"TLLI value (contd)",
+						"f_id":"tmsi_p_tmsi_value",
+						"f":"128",
+						"f_bin":"10000000",
+						"f_hex":"80",
+						"f_desc":"-"
+					},
+					{
+						"f_name":"TLLI value (contd)",
+						"f_id":"tmsi_p_tmsi_value",
+						"f":"0",
+						"f_bin":"00000000",
+						"f_hex":"00",
+						"f_desc":"3221389312"
+					}
+				]
+			},
+			{
+				"element_name":"qos_profile",
+				"element_desc":"Qos Profile",
+				"fields":[
+					{
+						"f_name":"R Value (MSB)",
+						"f_id":"r_value_msb",
+						"f":"0",
+						"f_bin":"00000000",
+						"f_hex":"00",
+						"f_desc":"-"
+					},
+					{
+						"f_name":"R Value (LSB)",
+						"f_id":"r_value_lsb",
+						"f":"11",
+						"f_bin":"00001011",
+						"f_hex":"0b",
+						"f_desc":"11 * 100 bits/sec"
+					},
+					{
+						"f_name":"SPARE",
+						"f_id":"spare",
+						"f":"0",
+						"f_bin":"00------",
+						"f_hex":"04",
+						"f_desc":"0"
+					},
+					{
+						"f_name":"C/R",
+						"f_id":"cr",
+						"f":"0",
+						"f_bin":"--0-----",
+						"f_hex":null,
+						"f_desc":"The SDU contains a LLC ACK or SACK command/response frame type"
+					},
+					{
+						"f_name":"T",
+						"f_id":"t",
+						"f":"0",
+						"f_bin":"---0----",
+						"f_hex":null,
+						"f_desc":"The SDU contains signalling"
+					},
+					{
+						"f_name":"A",
+						"f_id":"a",
+						"f":"0",
+						"f_bin":"----0---",
+						"f_hex":null,
+						"f_desc":"Radio interface uses RLC/MAC ARQ functionality"
+					},
+					{
+						"f_name":"Precedence",
+						"f_id":"precedence",
+						"f":"4",
+						"f_bin":"-----100",
+						"f_hex":null,
+						"f_desc":"Radio Priority Unknown"
+					}
+				]
+			},
+			{
+				"element_name":"cell_identifier",
+				"element_desc":"Cell Identifier",
+				"fields":[
+					{
+						"f_name":"IEI",
+						"f_id":"iei",
+						"f":"8",
+						"f_bin":"00001000",
+						"f_hex":"08",
+						"f_desc":"IEI"
+					},
+					{
+						"f_name":"Length Indicator",
+						"f_id":"length",
+						"f":"136",
+						"f_bin":"10001000",
+						"f_hex":"88",
+						"f_desc":"136"
+					},
+					{
+						"f_name":"MCC digit 2",
+						"f_id":"mcc_digit2",
+						"f":"6",
+						"f_bin":"0110----",
+						"f_hex":"64",
+						"f_desc":"-"
+					},
+					{
+						"f_name":"MCC digit 1",
+						"f_id":"mcc_digit1",
+						"f":"4",
+						"f_bin":"----0100",
+						"f_hex":null,
+						"f_desc":"-"
+					},
+					{
+						"f_name":"MNC digit 3",
+						"f_id":"mnc_digit3",
+						"f":"15",
+						"f_bin":"1111----",
+						"f_hex":"f0",
+						"f_desc":"-"
+					},
+					{
+						"f_name":"MCC digit 3",
+						"f_id":"mcc_digit3",
+						"f":"0",
+						"f_bin":"----0000",
+						"f_hex":null,
+						"f_desc":"MCC = 460"
+					},
+					{
+						"f_name":"MNC digit 2",
+						"f_id":"mnc_digit2",
+						"f":"0",
+						"f_bin":"0000----",
+						"f_hex":"02",
+						"f_desc":"-"
+					},
+					{
+						"f_name":"MNC digit 1",
+						"f_id":"mnc_digit1",
+						"f":"2",
+						"f_bin":"----0010",
+						"f_hex":null,
+						"f_desc":"MNC = 215"
+					},
+					{
+						"f_name":"LAC",
+						"f_id":"lac",
+						"f":"33",
+						"f_bin":"00100001",
+						"f_hex":"21",
+						"f_desc":"33"
+					},
+					{
+						"f_name":"LAC (continued)",
+						"f_id":"lac_c",
+						"f":"16",
+						"f_bin":"00010000",
+						"f_hex":"10",
+						"f_desc":"LAC=8464"
+					},
+					{
+						"f_name":"Rac",
+						"f_id":"rac",
+						"f":"0",
+						"f_bin":"00000000",
+						"f_hex":"00",
+						"f_desc":"0"
+					},
+					{
+						"f_name":"Cl value",
+						"f_id":"cl_value",
+						"f":"144",
+						"f_bin":"10010000",
+						"f_hex":"90",
+						"f_desc":"-"
+					},
+					{
+						"f_name":"Cl value (continued)",
+						"f_id":"cl_value_continued",
+						"f":"3",
+						"f_bin":"00000011",
+						"f_hex":"03",
+						"f_desc":"Cl value=36867"
+					}
+				]
+			}
+		]
+	}
+}
